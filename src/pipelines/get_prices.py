@@ -58,4 +58,4 @@ def update_prices(industry: str, start_date: str, end_date:str):
 # for testing or running individually
 if __name__ == '__main__':
     print('Running update_prices.py')
-    update_prices(industry='Oil & Gas E&P', start_date='2020-01-01', end_date='2025-10-08')
+    update_prices(industry='Oil & Gas E&P', start_date='2025-10-01', end_date='2025-10-13')
