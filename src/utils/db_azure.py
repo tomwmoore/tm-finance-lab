@@ -26,7 +26,7 @@ def get_azure_engine(username: str, password: str, database: str = "tmfl_db", se
     params = urllib.parse.quote_plus(
         f"DRIVER={{ODBC Driver 18 for SQL Server}};"
         f"SERVER={server};DATABASE={database};UID={username};PWD={password};"
-        "Encrypt=yes;TrustServerCertificate=no;Connection Timeout=300;"
+        "Encrypt=yes;TrustServerCertificate=no;Connection Timeout=900;"
     )
 
     engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")

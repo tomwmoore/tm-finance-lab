@@ -12,7 +12,33 @@ from src.utils.db_azure import get_analytics_azure_engine
 from src.utils.db_azure import azure_upsert
 
 
-def update_prices(industry: str, start_date: str, end_date:str):
+
+
+def get_yf_prices(symbols : list, start_date: str, end_date : str, interval : str = '1d'):
+
+    # pull price data
+    data = yf.download(symbols, interval= symbols, group_by='ticker', start = start_date, end = end_date)
+
+    # Clean up multi-index column names to just be the feature names (close, open etc) & make lowercase
+    data = data.stack(level=0,future_stack=True).rename_axis(['Date', 'Ticker']).reset_index(level=1)
+
+    # remote date as the index
+    data = data.reset_index()
+
+    data.columns = [col.lower() for col in data.columns]
+
+    # add current timestamp for troubleshooting
+    data['updated_at'] = pd.Timestamp.now()
+
+    return data
+
+
+
+
+
+
+
+def update_stock_prices(industry: str, start_date: str, end_date:str):
 
     
     print(f"Debug: Getting price data for industry {industry} and dates: {start_date} to {end_date}...")
@@ -22,6 +48,7 @@ def update_prices(industry: str, start_date: str, end_date:str):
                     select symbol 
                     from asset_header
                     where industry = '{industry}'
+                    and asset_type = 'stock'
                     """
 
     engine = get_analytics_azure_engine()
@@ -58,4 +85,4 @@ def update_prices(industry: str, start_date: str, end_date:str):
 # for testing or running individually
 if __name__ == '__main__':
     print('Running update_prices.py')
-    update_prices(industry='Oil & Gas E&P', start_date='2025-10-01', end_date='2025-10-13')
+    update_stock_prices(industry='Oil & Gas E&P', start_date='2025-10-01', end_date='2025-10-26')
