@@ -1,7 +1,32 @@
 import pandas as pd
 import numpy as np
 
-def compute_rsi(data, period):
+
+def compute_rolling_avg(data : pd.Series, period : int):
+
+    """
+    Computes Simple Moving Average (SMA)
+    """
+
+    return data.rolling(window=period).mean()
+
+
+def compute_bollinger_bands(data : pd.Series, period : int):
+
+    """
+    Computes Upper & Lower Bollinger Band given price data 
+    """
+
+    moving_avg = compute_rolling_avg(data,period=period)
+    moving_std = 2*data.rolling(window=period).std()
+
+    upper_band = moving_avg + moving_std
+    lower_band = moving_avg - moving_std
+    
+    return upper_band, lower_band
+
+
+def compute_rsi(data : pd.Series, period : int):
 
     """
     Function computes Relative Strength Index (RSI) for a given price series and period
