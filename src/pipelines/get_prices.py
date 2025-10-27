@@ -84,11 +84,9 @@ def update_oil_prices(start_date : str, end_date : str):
 
 # for testing or running individually
 if __name__ == '__main__':
-    print('Running update_prices.py')
+    print('Running get_prices.py')
     start_date = '2020-01-01'
     end_date ='2025-10-26'
 
-    # update_stock_prices(industry='Oil & Gas E&P', start_date=start_date, end_date=end_date)
+    update_stock_prices(industry='Oil & Gas E&P', start_date=start_date, end_date=end_date)
     update_oil_prices(start_date=start_date, end_date=end_date)
-    # test = get_yf_prices(symbols=['CL=F'],start_date=start_date, end_date=end_date)
-    # print(test)
