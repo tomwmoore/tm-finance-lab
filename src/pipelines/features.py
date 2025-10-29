@@ -19,6 +19,13 @@ class FeaturePipeline:
 
 
     def get_indicators(self):
+
+        print('-- Calculating Indicators...')
+        
+        # Rolling Avg (SMA)
+        for period in self.config['sma_periods']:
+            col_name = f'sma_{period}'
+            self.df[col_name] = ind.compute_rolling_avg(self.df['close'], period=period)        
         
         # RSI
         for period in self.config['rsi_periods']:
@@ -32,11 +39,23 @@ class FeaturePipeline:
 
             upper_band, lower_band = ind.compute_bollinger_bands(self.df['close'],period = period)
             self.df[col_upper] = upper_band
-            self.df[col_lower] = lower_band            
+            self.df[col_lower] = lower_band   
 
+        
+        print('-- Indicators Ready')
+
+
+    def get_returns(self):
+        return 
+    
+    def scale_features(self):
+        return 
+                    
+    def get_targets(self):
+        return
 
 
     def run_pipeline(self):
         self.get_indicators()
 
-        return self.df
+        return 
